@@ -1,0 +1,87 @@
+📡 Understanding WebSockets – Weekly Learning Update
+
+===========================
+1. What Are WebSockets?
+===========================
+WebSockets provide a full-duplex communication channel over a single, long-lived TCP connection. 
+Unlike HTTP, which is request-response-based, WebSockets allow servers to push data to clients in real-time.
+
+===========================
+2. How WebSockets Work
+===========================
+1. Handshake: Starts as an HTTP request.
+2. Upgrade: Client sends a request to "upgrade" the connection to WebSocket.
+3. Connection Established: Once accepted, the TCP connection stays open.
+4. Full-Duplex Communication: Both client and server can send/receive messages anytime.
+
+===========================
+3. Key Features
+===========================
+- Bi-directional communication
+- Low latency real-time data transfer
+- Less overhead compared to polling or long-polling
+- Ideal for live features like:
+  - Chat applications
+  - Online multiplayer games
+  - Stock price updates
+  - Collaborative tools (e.g., Google Docs)
+
+===========================
+4. WebSocket vs HTTP
+===========================
+| Feature       | HTTP               | WebSocket               |
+|---------------|--------------------|--------------------------|
+| Communication | Request-Response   | Full-Duplex             |
+| Connection    | One-time           | Persistent              |
+| Latency       | Higher             | Lower                   |
+| Use Case      | Static content     | Real-time updates       |
+
+===========================
+5. Sample Code
+===========================
+
+Client-side JavaScript:
+------------------------
+const socket = new WebSocket('ws://localhost:3000');
+
+socket.onopen = () => {
+  console.log('Connected to server');
+  socket.send('Hello from client');
+};
+
+socket.onmessage = (event) => {
+  console.log('Received:', event.data);
+};
+
+Node.js WebSocket Server using `ws`:
+-------------------------------------
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 3000 });
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('message', (msg) => {
+    console.log('Received:', msg);
+    ws.send(`You said: ${msg}`);
+  });
+});
+
+===========================
+6. Libraries Used
+===========================
+- JavaScript (Client): Native WebSocket API
+- Node.js (Server): `ws` npm package
+
+===========================
+ 7.What I Learned
+===========================
+- The WebSocket protocol is ideal for real-time and interactive apps.
+- It significantly reduces the network overhead of repeated HTTP requests.
+- Understanding the difference between HTTP polling, long polling, and WebSockets is essential for scalable app architecture.
+
+===========================
+8.Next Steps
+===========================
+- Explore Socket.IO for fallback handling and rooms
+- Implement WebSocket communication in my HackHub AI project
+- Try using WebSockets with Next.js API routes or a separate WebSocket server
